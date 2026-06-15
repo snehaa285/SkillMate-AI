@@ -18,12 +18,16 @@
       --text: #334155;
       --muted: #64748b;
       --white: #ffffff;
+      --light: #f8fafc;
       --border: #e2e8f0;
-      --bg: #f8fafc;
+      --success: #16a34a;
+      --danger: #dc2626;
       --gradient: linear-gradient(135deg, #2563eb, #7c3aed);
+      --cyan-gradient: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
       --soft-gradient: linear-gradient(135deg, rgba(37,99,235,0.12), rgba(124,58,237,0.12));
       --shadow: 0 24px 60px rgba(15, 23, 42, 0.14);
       --soft-shadow: 0 14px 34px rgba(37, 99, 235, 0.18);
+      --transition: all 0.3s ease;
     }
 
     * {
@@ -45,8 +49,8 @@
     }
 
     a {
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
 
     button,
@@ -107,7 +111,7 @@
       cursor: pointer;
       font-size: 0.95rem;
       font-weight: 800;
-      transition: 0.3s ease;
+      transition: var(--transition);
     }
 
     .btn-primary {
@@ -148,22 +152,6 @@
       transform: none;
     }
 
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(226, 232, 240, 0.78);
-    }
-
-    .nav-content {
-      height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
     .brand-logo {
       display: inline-flex;
       align-items: center;
@@ -177,12 +165,33 @@
       width: 46px;
       height: 46px;
       border-radius: 16px;
-      background: var(--gradient);
-      color: white;
+      background: rgba(255, 255, 255, 0.88);
       display: grid;
       place-items: center;
-      font-weight: 900;
-      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.25);
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.2);
+      border: 1px solid rgba(37, 99, 235, 0.12);
+      overflow: hidden;
+    }
+
+    .logo-svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.78);
+    }
+
+    .nav-content {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .nav-links {
@@ -194,8 +203,29 @@
       font-weight: 700;
     }
 
+    .nav-links a {
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 0;
+      height: 3px;
+      border-radius: 999px;
+      background: var(--gradient);
+      transition: var(--transition);
+    }
+
     .nav-links a:hover {
       color: var(--primary);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
     }
 
     .nav-actions {
@@ -230,10 +260,36 @@
       background:
         radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.16), transparent 30%),
         radial-gradient(circle at 90% 15%, rgba(124, 58, 237, 0.18), transparent 32%),
+        radial-gradient(circle at 50% 95%, rgba(6, 182, 212, 0.12), transparent 35%),
         linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
     }
 
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: var(--soft-gradient);
+      z-index: 0;
+    }
+
+    .hero::before {
+      width: 230px;
+      height: 230px;
+      left: -80px;
+      top: 110px;
+    }
+
+    .hero::after {
+      width: 290px;
+      height: 290px;
+      right: -95px;
+      bottom: 40px;
+    }
+
     .hero-grid {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: 1.08fr 0.92fr;
       gap: 58px;
@@ -290,15 +346,36 @@
     }
 
     .dashboard-card {
-      padding: 26px;
+      position: relative;
+      padding: 24px;
       border-radius: 32px;
-      background: rgba(255, 255, 255, 0.86);
+      background: rgba(255, 255, 255, 0.82);
       border: 1px solid rgba(226, 232, 240, 0.86);
       box-shadow: var(--shadow);
       backdrop-filter: blur(18px);
+      overflow: hidden;
+    }
+
+    .dashboard-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(37,99,235,0.16), transparent 38%);
+      pointer-events: none;
+    }
+
+    .hero-logo-watermark {
+      position: absolute;
+      right: -30px;
+      top: -20px;
+      width: 180px;
+      height: 180px;
+      opacity: 0.08;
+      pointer-events: none;
     }
 
     .dashboard-top {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -321,6 +398,7 @@
     }
 
     .progress-box {
+      position: relative;
       padding: 22px;
       border-radius: 24px;
       background: var(--gradient);
@@ -350,6 +428,7 @@
     }
 
     .dashboard-metrics {
+      position: relative;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 14px;
@@ -375,27 +454,6 @@
       font-weight: 700;
     }
 
-    .chat-info-card {
-      margin-top: 16px;
-      padding: 18px;
-      border-radius: 22px;
-      background: #ffffff;
-      border: 1px solid var(--border);
-      box-shadow: 0 12px 28px rgba(37, 99, 235, 0.1);
-    }
-
-    .chat-info-card strong {
-      display: block;
-      color: var(--dark);
-      margin-bottom: 4px;
-    }
-
-    .chat-info-card span {
-      color: var(--muted);
-      font-size: 0.92rem;
-      font-weight: 600;
-    }
-
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -408,7 +466,7 @@
       background: rgba(255, 255, 255, 0.9);
       border: 1px solid var(--border);
       box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
-      transition: 0.3s ease;
+      transition: var(--transition);
     }
 
     .card:hover {
@@ -439,6 +497,14 @@
       font-size: 0.96rem;
     }
 
+    .about-content {
+      max-width: 880px;
+      margin: 0 auto 38px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 1.07rem;
+    }
+
     .courses,
     .roadmap {
       background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
@@ -466,6 +532,13 @@
       font-weight: 800;
     }
 
+    .why {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.1), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.12), transparent 32%),
+        #ffffff;
+    }
+
     .why-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -482,6 +555,12 @@
       box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
       color: var(--dark);
       font-weight: 800;
+      transition: var(--transition);
+    }
+
+    .why-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--soft-shadow);
     }
 
     .check {
@@ -551,6 +630,12 @@
       background: var(--white);
       border: 1px solid var(--border);
       box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
+      transition: var(--transition);
+    }
+
+    .timeline-content:hover {
+      transform: translateX(6px);
+      box-shadow: var(--soft-shadow);
     }
 
     .timeline-content h3 {
@@ -559,6 +644,8 @@
     }
 
     .smart-forms {
+      position: relative;
+      overflow: hidden;
       background:
         radial-gradient(circle at 15% 15%, rgba(37,99,235,0.16), transparent 32%),
         radial-gradient(circle at 90% 80%, rgba(124,58,237,0.16), transparent 30%),
@@ -566,58 +653,8 @@
     }
 
     .form-showcase {
-      display: grid;
-      grid-template-columns: 0.88fr 1.12fr;
-      gap: 34px;
-      align-items: start;
-    }
-
-    .automation-card {
-      position: sticky;
-      top: 100px;
-      padding: 34px;
-      border-radius: 30px;
-      background: var(--dark);
-      color: var(--white);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .automation-card h3 {
-      font-size: 2rem;
-      line-height: 1.18;
-      margin-bottom: 14px;
-    }
-
-    .automation-card p {
-      color: rgba(255,255,255,0.72);
-      margin-bottom: 24px;
-    }
-
-    .flow-list {
-      display: grid;
-      gap: 14px;
-    }
-
-    .flow-item {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      padding: 14px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.1);
-      font-weight: 800;
-    }
-
-    .flow-dot {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: var(--gradient);
-      flex: 0 0 auto;
+      max-width: 900px;
+      margin: 0 auto;
     }
 
     .forms-panel {
@@ -643,7 +680,7 @@
       background: #f8fafc;
       cursor: pointer;
       text-align: left;
-      transition: 0.3s ease;
+      transition: var(--transition);
     }
 
     .form-tab strong {
@@ -678,6 +715,18 @@
 
     .smart-form.active {
       display: block;
+      animation: fadeIn 0.35s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .form-title-row {
@@ -740,7 +789,7 @@
       color: var(--text);
       background: #f8fafc;
       font-size: 0.95rem;
-      transition: 0.3s ease;
+      transition: var(--transition);
     }
 
     .form-control:focus {
@@ -808,6 +857,11 @@
       color: var(--white);
     }
 
+    .footer .logo-box {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
     .footer p {
       max-width: 370px;
       color: rgba(255, 255, 255, 0.66);
@@ -826,10 +880,12 @@
 
     .footer-links a {
       color: rgba(255, 255, 255, 0.66);
+      transition: var(--transition);
     }
 
     .footer-links a:hover {
       color: var(--white);
+      transform: translateX(4px);
     }
 
     .socials {
@@ -845,6 +901,12 @@
       display: grid;
       place-items: center;
       background: rgba(255, 255, 255, 0.08);
+      transition: var(--transition);
+    }
+
+    .socials a:hover {
+      background: var(--gradient);
+      transform: translateY(-4px);
     }
 
     .copyright {
@@ -867,14 +929,8 @@
     }
 
     @media (max-width: 1024px) {
-      .hero-grid,
-      .form-showcase {
+      .hero-grid {
         grid-template-columns: 1fr;
-      }
-
-      .automation-card {
-        position: relative;
-        top: auto;
       }
 
       .why-grid {
@@ -930,6 +986,7 @@
 
       .hero-buttons {
         flex-direction: column;
+        align-items: stretch;
       }
 
       .hero-buttons .btn {
@@ -944,6 +1001,37 @@
         flex-direction: column;
       }
     }
+
+    @media (max-width: 540px) {
+      .section {
+        padding: 70px 0;
+      }
+
+      .hero h1 {
+        font-size: 2.45rem;
+      }
+
+      .dashboard-card,
+      .forms-panel,
+      .smart-form {
+        padding: 22px;
+        border-radius: 24px;
+      }
+
+      .timeline::before {
+        left: 20px;
+      }
+
+      .timeline-item {
+        padding-left: 62px;
+      }
+
+      .timeline-number {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+      }
+    }
   </style>
 </head>
 
@@ -951,7 +1039,27 @@
   <header class="navbar">
     <div class="container nav-content">
       <a href="#home" class="brand-logo">
-        <span class="logo-box">S</span>
+        <span class="logo-box">
+          <svg class="logo-svg" viewBox="0 0 120 120" aria-hidden="true">
+            <defs>
+              <linearGradient id="skillLogoGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#06b6d4"/>
+                <stop offset="45%" stop-color="#2563eb"/>
+                <stop offset="100%" stop-color="#7c3aed"/>
+              </linearGradient>
+            </defs>
+            <path d="M25 96 C38 82 48 82 60 96 C72 82 86 82 101 96" fill="none" stroke="#061a44" stroke-width="8" stroke-linecap="round"/>
+            <path d="M23 88 C38 80 50 82 60 94 C70 82 83 80 98 88" fill="none" stroke="url(#skillLogoGradient)" stroke-width="8" stroke-linecap="round"/>
+            <path d="M36 24 L61 10 L94 28 L61 45 Z" fill="#061a44"/>
+            <path d="M43 36 C48 31 75 31 80 36 L80 50 C69 45 54 45 43 50 Z" fill="#061a44"/>
+            <path d="M40 73 C48 62 74 72 75 55 C76 43 57 48 57 40 C57 33 70 35 80 39" fill="none" stroke="url(#skillLogoGradient)" stroke-width="15" stroke-linecap="round"/>
+            <path d="M78 56 H94 M94 56 L102 48 H110" stroke="#2563eb" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <path d="M85 69 H108" stroke="#7c3aed" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <circle cx="112" cy="48" r="5" fill="#2563eb"/>
+            <circle cx="110" cy="69" r="5" fill="#7c3aed"/>
+            <path d="M21 77 C10 57 15 34 33 22" stroke="#06b6d4" stroke-width="6" fill="none" stroke-linecap="round"/>
+          </svg>
+        </span>
         <span>SkillMate AI</span>
       </a>
 
@@ -981,7 +1089,7 @@
           <div class="hero-badge">🚀 AI-powered learning for beginners</div>
           <h1>Build Future-Ready Skills with <span>AI-Powered Learning</span></h1>
           <p>
-            Learn full stack development, AI automations, modern tools, and real-world project skills with smart guidance, hands-on practice, and chatbot support.
+            Learn full stack development, AI automations, modern tools, and real-world project skills with smart guidance and hands-on practice.
           </p>
 
           <div class="hero-buttons">
@@ -992,11 +1100,17 @@
           <div class="hero-stats">
             <span>✅ Beginner Friendly</span>
             <span>✅ Project Practice</span>
-            <span>✅ Chatbase AI Chatbot</span>
+            <span>✅ AI Tool Guidance</span>
           </div>
         </div>
 
         <div class="dashboard-card reveal">
+          <svg class="hero-logo-watermark" viewBox="0 0 120 120" aria-hidden="true">
+            <path d="M25 96 C38 82 48 82 60 96 C72 82 86 82 101 96" fill="none" stroke="#061a44" stroke-width="8" stroke-linecap="round"/>
+            <path d="M36 24 L61 10 L94 28 L61 45 Z" fill="#061a44"/>
+            <path d="M40 73 C48 62 74 72 75 55 C76 43 57 48 57 40 C57 33 70 35 80 39" fill="none" stroke="#2563eb" stroke-width="15" stroke-linecap="round"/>
+          </svg>
+
           <div class="dashboard-top">
             <h2 class="dashboard-title">AI Learning Dashboard</h2>
             <span class="status-pill">Live</span>
@@ -1030,11 +1144,6 @@
               <p>Modern Tools</p>
             </div>
           </div>
-
-          <div class="chat-info-card">
-            <strong>🤖 AI Chatbot Available</strong>
-            <span>Use the floating Chatbase button at the bottom-right corner for instant guidance.</span>
-          </div>
         </div>
       </div>
     </section>
@@ -1045,27 +1154,31 @@
           <span class="section-tag">💡 About SkillMate AI</span>
           <h2 class="section-title">What is SkillMate AI?</h2>
           <p class="section-desc">
-            SkillMate AI is a student-focused learning platform for practical skills, project learning, AI tools, roadmaps, and automation.
+            SkillMate AI is created for students who want practical, career-focused learning with modern technology skills.
           </p>
         </div>
+
+        <p class="about-content reveal">
+          SkillMate AI is a student-focused learning platform designed to help beginners explore industry-level skills through practical roadmaps, project-based learning, AI tools, and modern workflow guidance.
+        </p>
 
         <div class="grid-3">
           <div class="card reveal">
             <div class="icon">🌱</div>
             <h3>Beginner Friendly</h3>
-            <p>Start from the basics and learn step by step with simple explanations and guided practice.</p>
+            <p>Start from the basics and learn step by step with simple explanations, roadmaps, and guided practice.</p>
           </div>
 
           <div class="card reveal">
             <div class="icon">🛠️</div>
             <h3>Project-Based Learning</h3>
-            <p>Build mini projects that improve frontend, logic-building, design, and problem-solving skills.</p>
+            <p>Build mini projects that improve your frontend, logic-building, design, and problem-solving skills.</p>
           </div>
 
           <div class="card reveal">
-            <div class="icon">🤖</div>
-            <h3>AI Chatbot Support</h3>
-            <p>Use the Chatbase-powered chatbot to ask questions about courses, projects, tools, and roadmaps.</p>
+            <div class="icon">🚀</div>
+            <h3>Career-Focused Skills</h3>
+            <p>Learn modern tools, technologies, and project workflows used in real industry environments.</p>
           </div>
         </div>
       </div>
@@ -1107,8 +1220,8 @@
 
           <div class="card course-card reveal">
             <div class="icon">🌐</div>
-            <h3>Frontend Development</h3>
-            <p>Master HTML, CSS, JavaScript, responsive design, and modern landing page sections.</p>
+            <h3>Web Development Basics</h3>
+            <p>Master the foundation of websites with responsive layouts and modern UI sections.</p>
             <div class="skills">
               <span class="skill-pill">HTML</span>
               <span class="skill-pill">CSS</span>
@@ -1119,8 +1232,8 @@
 
           <div class="card course-card reveal">
             <div class="icon">🛡️</div>
-            <h3>Cybersecurity Basics</h3>
-            <p>Explore security awareness, safe browsing, phishing, passwords, and beginner concepts.</p>
+            <h3>Cyber Security Basics</h3>
+            <p>Explore security awareness, safe browsing, cyber hygiene, threats, and beginner concepts.</p>
             <div class="skills">
               <span class="skill-pill">Security</span>
               <span class="skill-pill">Awareness</span>
@@ -1170,9 +1283,9 @@
           <div class="why-card reveal"><span class="check">✓</span>Real-world mini projects</div>
           <div class="why-card reveal"><span class="check">✓</span>Career-focused skill guidance</div>
           <div class="why-card reveal"><span class="check">✓</span>Modern tools and technologies</div>
-          <div class="why-card reveal"><span class="check">✓</span>AI chatbot assistance</div>
-          <div class="why-card reveal"><span class="check">✓</span>Google Sheets automation</div>
-          <div class="why-card reveal"><span class="check">✓</span>Form Mule email automation</div>
+          <div class="why-card reveal"><span class="check">✓</span>Peer learning experience</div>
+          <div class="why-card reveal"><span class="check">✓</span>Frontend project practice</div>
+          <div class="why-card reveal"><span class="check">✓</span>Portfolio-building support</div>
         </div>
       </div>
     </section>
@@ -1198,6 +1311,27 @@
             <h3>Student Dashboard</h3>
             <p>Design a dashboard showing progress, courses, projects, and learning activity.</p>
             <span class="tag">Intermediate</span>
+          </div>
+
+          <div class="card reveal">
+            <div class="icon">📄</div>
+            <h3>Resume Builder Frontend</h3>
+            <p>Create a clean resume builder interface with input sections and preview layout.</p>
+            <span class="tag">Frontend</span>
+          </div>
+
+          <div class="card reveal">
+            <div class="icon">🔐</div>
+            <h3>Cyber Awareness Website</h3>
+            <p>Create an awareness page about online safety, phishing, passwords, and cyber hygiene.</p>
+            <span class="tag">Beginner</span>
+          </div>
+
+          <div class="card reveal">
+            <div class="icon">🎯</div>
+            <h3>Skill Tracker Page</h3>
+            <p>Design a tracker that shows learning progress, goals, completed lessons, and project status.</p>
+            <span class="tag">Frontend</span>
           </div>
 
           <div class="card reveal">
@@ -1238,13 +1372,21 @@
           <div class="timeline-item reveal">
             <div class="timeline-number">3</div>
             <div class="timeline-content">
-              <h3>AI Tools & Chatbot Integration</h3>
-              <p>Use Chatbase and AI assistants to improve your project experience.</p>
+              <h3>Responsive Web Design</h3>
+              <p>Make websites work beautifully on mobile, tablet, and desktop screens.</p>
             </div>
           </div>
 
           <div class="timeline-item reveal">
             <div class="timeline-number">4</div>
+            <div class="timeline-content">
+              <h3>AI Tools & Chatbot Integration</h3>
+              <p>Use tools like Chatbase and AI assistants to improve your project experience.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="timeline-number">5</div>
             <div class="timeline-content">
               <h3>Google Sheets Automation</h3>
               <p>Connect forms to Google Sheets and automate emails using Apps Script and Form Mule.</p>
@@ -1252,9 +1394,17 @@
           </div>
 
           <div class="timeline-item reveal">
-            <div class="timeline-number">5</div>
+            <div class="timeline-number">6</div>
             <div class="timeline-content">
-              <h3>Deploy on GitHub Pages</h3>
+              <h3>Frontend Project Practice</h3>
+              <p>Build landing pages, dashboards, portfolio sections, forms, and modern UI components.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="timeline-number">7</div>
+            <div class="timeline-content">
+              <h3>Deployment on GitHub Pages</h3>
               <p>Publish your frontend project online and share it with others.</p>
             </div>
           </div>
@@ -1273,20 +1423,6 @@
         </div>
 
         <div class="form-showcase">
-          <div class="automation-card reveal">
-            <h3>Smart automation that feels like a real EdTech platform.</h3>
-            <p>
-              The website collects student details, Apps Script saves them into Google Sheets, and Form Mule sends personalized emails.
-            </p>
-
-            <div class="flow-list">
-              <div class="flow-item"><span class="flow-dot">1</span><span>User submits form</span></div>
-              <div class="flow-item"><span class="flow-dot">2</span><span>Data goes to Google Sheets</span></div>
-              <div class="flow-item"><span class="flow-dot">3</span><span>Email Status becomes queued</span></div>
-              <div class="flow-item"><span class="flow-dot">4</span><span>Form Mule sends email</span></div>
-            </div>
-          </div>
-
           <div class="forms-panel reveal">
             <div class="form-tabs">
               <button class="form-tab active" type="button" data-form="roadmap">
@@ -1304,7 +1440,7 @@
               <div class="form-title-row">
                 <div>
                   <h3>Get Your Personalized SkillMate AI Roadmap</h3>
-                  <p>Tell us your goal, level, and learning time. Your roadmap will be sent to your email.</p>
+                  <p>Tell us your goal, level, and learning time. Your roadmap will be sent to your email through automation.</p>
                 </div>
                 <span class="mini-badge">Free Roadmap</span>
               </div>
@@ -1417,7 +1553,7 @@
               <div class="form-title-row">
                 <div>
                   <h3>Enroll in a SkillMate AI Course</h3>
-                  <p>Submit your course interest and receive a confirmation email.</p>
+                  <p>Submit your course interest and receive a confirmation email through automation.</p>
                 </div>
                 <span class="mini-badge">Enrollment</span>
               </div>
@@ -1527,7 +1663,20 @@
       <div class="footer-grid">
         <div>
           <a href="#home" class="brand-logo">
-            <span class="logo-box">S</span>
+            <span class="logo-box">
+              <svg class="logo-svg" viewBox="0 0 120 120" aria-hidden="true">
+                <defs>
+                  <linearGradient id="skillLogoGradient3" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#06b6d4"/>
+                    <stop offset="45%" stop-color="#2563eb"/>
+                    <stop offset="100%" stop-color="#7c3aed"/>
+                  </linearGradient>
+                </defs>
+                <path d="M25 96 C38 82 48 82 60 96 C72 82 86 82 101 96" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+                <path d="M36 24 L61 10 L94 28 L61 45 Z" fill="#ffffff"/>
+                <path d="M40 73 C48 62 74 72 75 55 C76 43 57 48 57 40 C57 33 70 35 80 39" fill="none" stroke="url(#skillLogoGradient3)" stroke-width="15" stroke-linecap="round"/>
+              </svg>
+            </span>
             <span>SkillMate AI</span>
           </a>
           <p>A modern student skill-development platform for practical learning, AI tools, projects, roadmaps, and career-focused skills.</p>
@@ -1549,7 +1698,7 @@
           <div class="footer-links">
             <a href="#courses">Full Stack Development</a>
             <a href="#courses">AI Automations</a>
-            <a href="#courses">Cybersecurity</a>
+            <a href="#courses">Cyber Security</a>
             <a href="#courses">Data Analytics</a>
           </div>
         </div>
@@ -1571,16 +1720,20 @@
 
   <script>
     const ROADMAP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-bwngpF5soZwzcuPsQCKbmLNIH0bXYfVWMPkBoq-PtxK59Yadwa274MsAT1ABCZTH7w/exec";
+
     const ENROLLMENT_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzphvawKOb12KMIoFZ5zvTbINWv8fgeoTQTK1eqz1gWkxfNKG87BvC6XqXsLqk4e6fSfQ/exec";
 
     const hamburger = document.getElementById("hamburger");
     const navLinks = document.getElementById("navLinks");
     const revealElements = document.querySelectorAll(".reveal");
+
     const formTabs = document.querySelectorAll(".form-tab");
     const roadmapForm = document.getElementById("roadmapForm");
     const enrollmentForm = document.getElementById("enrollmentForm");
+
     const roadmapMessage = document.getElementById("roadmapMessage");
     const enrollmentMessage = document.getElementById("enrollmentMessage");
+
     const selectedCourse = document.getElementById("selectedCourse");
 
     if (hamburger) {
@@ -1596,10 +1749,7 @@
 
         if (targetElement) {
           event.preventDefault();
-
-          if (navLinks) {
-            navLinks.classList.remove("active");
-          }
+          navLinks.classList.remove("active");
 
           targetElement.scrollIntoView({
             behavior: "smooth",
@@ -1655,7 +1805,7 @@
         method: "POST",
         mode: "no-cors",
         headers: {
-          "Content-Type": "text/plain;charset=utf-8"
+          "Content-Type": "text/plain"
         },
         body: JSON.stringify(data)
       });
@@ -1737,42 +1887,10 @@
     window.addEventListener("load", revealOnScroll);
   </script>
 
-  <!-- CHATBASE CHATBOT SCRIPT START -->
+  <!-- CHATBASE SCRIPT START -->
   <script>
-    (function(){
-      if(!window.chatbase || window.chatbase("getState") !== "initialized"){
-        window.chatbase = (...arguments) => {
-          if(!window.chatbase.q){
-            window.chatbase.q = [];
-          }
-          window.chatbase.q.push(arguments);
-        };
-
-        window.chatbase = new Proxy(window.chatbase, {
-          get(target, prop){
-            if(prop === "q"){
-              return target.q;
-            }
-            return (...args) => target(prop, ...args);
-          }
-        });
-      }
-
-      const onLoad = function(){
-        const script = document.createElement("script");
-        script.src = "https://www.chatbase.co/embed.min.js";
-        script.id = "j8VVpfZ3MHNilHdNepFRX";
-        script.domain = "www.chatbase.co";
-        document.body.appendChild(script);
-      };
-
-      if(document.readyState === "complete"){
-        onLoad();
-      } else {
-        window.addEventListener("load", onLoad);
-      }
-    })();
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="j8VVpfZ3MHNilHdNepFRX";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
   </script>
-  <!-- CHATBASE CHATBOT SCRIPT END -->
+  <!-- CHATBASE SCRIPT END -->
 </body>
 </html>
