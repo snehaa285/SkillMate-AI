@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillMate AI | Student Skill Development Platform</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --cyan: #06b6d4;
+      --dark: #0f172a;
+      --text: #334155;
+      --muted: #64748b;
+      --white: #ffffff;
+      --light: #f8fafc;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --gradient: linear-gradient(135deg, #2563eb, #7c3aed);
+      --cyan-gradient: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
+      --soft-gradient: linear-gradient(135deg, rgba(37,99,235,0.12), rgba(124,58,237,0.12));
+      --shadow: 0 24px 60px rgba(15, 23, 42, 0.14);
+      --soft-shadow: 0 14px 34px rgba(37, 99, 235, 0.18);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: auto;
+    }
+
+    .section {
+      padding: 90px 0;
+    }
+
+    .section-header {
+      max-width: 760px;
+      margin: 0 auto 52px;
+      text-align: center;
+    }
+
+    .section-tag {
+      display: inline-flex;
+      padding: 8px 16px;
+      margin-bottom: 18px;
+      border-radius: 999px;
+      background: var(--soft-gradient);
+      color: var(--primary);
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .section-title {
+      color: var(--dark);
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.15;
+      font-weight: 900;
+      margin-bottom: 14px;
+      letter-spacing: -0.04em;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 24px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 800;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--gradient);
+      color: var(--white);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .btn-light {
+      background: var(--white);
+      color: var(--primary);
+      border: 1px solid rgba(37, 99, 235, 0.15);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .btn-outline {
+      width: fit-content;
+      margin-top: auto;
+      padding: 10px 17px;
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      font-size: 0.86rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dark);
+      font-size: 1.35rem;
+      font-weight: 900;
+    }
+
+    .logo-box {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.88);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.2);
+      border: 1px solid rgba(37, 99, 235, 0.12);
+      overflow: hidden;
+    }
+
+    .logo-svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.78);
+    }
+
+    .nav-content {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .nav-links a {
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 0;
+      height: 3px;
+      border-radius: 999px;
+      background: var(--gradient);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hamburger {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 12px;
+      background: var(--soft-gradient);
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--dark);
+      margin: 5px auto;
+      border-radius: 999px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 96px 0 92px;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.16), transparent 30%),
+        radial-gradient(circle at 90% 15%, rgba(124, 58, 237, 0.18), transparent 32%),
+        radial-gradient(circle at 50% 95%, rgba(6, 182, 212, 0.12), transparent 35%),
+        linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: var(--soft-gradient);
+      z-index: 0;
+    }
+
+    .hero::before {
+      width: 230px;
+      height: 230px;
+      left: -80px;
+      top: 110px;
+    }
+
+    .hero::after {
+      width: 290px;
+      height: 290px;
+      right: -95px;
+      bottom: 40px;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 58px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      padding: 9px 16px;
+      margin-bottom: 22px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(37, 99, 235, 0.14);
+      box-shadow: var(--soft-shadow);
+      color: var(--primary);
+      font-weight: 900;
+    }
+
+    .hero h1 {
+      color: var(--dark);
+      font-size: clamp(2.45rem, 5.8vw, 5rem);
+      line-height: 1.05;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin-bottom: 34px;
+      color: var(--muted);
+      font-size: 1.12rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 34px;
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .dashboard-card {
+      position: relative;
+      padding: 24px;
+      border-radius: 32px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(226, 232, 240, 0.86);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      overflow: hidden;
+    }
+
+    .dashboard-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(37,99,235,0.16), transparent 38%);
+      pointer-events: none;
+    }
+
+    .hero-logo-watermark {
+      position: absolute;
+      right: -30px;
+      top: -20px;
+      width: 180px;
+      height: 180px;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+
+    .dashboard-top {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .dashboard-title {
+      color: var(--dark);
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+
+    .status-pill {
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #15803d;
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    .progress-box {
+      position: relative;
+      padding: 22px;
+      border-radius: 24px;
+      background: var(--gradient);
+      color: var(--white);
+      margin-bottom: 18px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .progress-track {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.25);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 85%;
+      height: 100%;
+      background: var(--white);
+      border-radius: 999px;
+    }
+
+    .dashboard-metrics {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .metric-card {
+      padding: 20px;
+      border-radius: 22px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+    }
+
+    .metric-card h3 {
+      color: var(--dark);
+      font-size: 1.75rem;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .metric-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      padding: 28px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+      border-color: rgba(37, 99, 235, 0.25);
+    }
+
+    .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 17px;
+      background: var(--soft-gradient);
+      display: grid;
+      place-items: center;
+      font-size: 1.55rem;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      color: var(--dark);
+      font-size: 1.22rem;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .about-content {
+      max-width: 880px;
+      margin: 0 auto 38px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 1.07rem;
+    }
+
+    .courses,
+    .roadmap {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    }
+
+    .course-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 24px;
+    }
+
+    .skill-pill {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .why {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.1), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.12), transparent 32%),
+        #ffffff;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .why-card {
+      display: flex;
+      gap: 12px;
+      padding: 20px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+      color: var(--dark);
+      font-weight: 800;
+      transition: var(--transition);
+    }
+
+    .why-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .check {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--gradient);
+      color: var(--white);
+      display: grid;
+      place-items: center;
+      font-size: 0.9rem;
+      flex: 0 0 auto;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 7px 12px;
+      margin-top: 18px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: var(--secondary);
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    .timeline {
+      position: relative;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 24px;
+      top: 10px;
+      bottom: 10px;
+      width: 3px;
+      border-radius: 999px;
+      background: var(--gradient);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 72px;
+      margin-bottom: 24px;
+    }
+
+    .timeline-number {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 50px;
+      height: 50px;
+      border-radius: 16px;
+      background: var(--gradient);
+      color: var(--white);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .timeline-content {
+      padding: 22px 24px;
+      border-radius: 20px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
+      transition: var(--transition);
+    }
+
+    .timeline-content:hover {
+      transform: translateX(6px);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .timeline-content h3 {
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .smart-forms {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(37,99,235,0.16), transparent 32%),
+        radial-gradient(circle at 90% 80%, rgba(124,58,237,0.16), transparent 30%),
+        linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+    }
+
+    .form-showcase {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .forms-panel {
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(226,232,240,0.9);
+      box-shadow: var(--shadow);
+      border-radius: 32px;
+      padding: 22px;
+      backdrop-filter: blur(18px);
+    }
+
+    .form-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .form-tab {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      cursor: pointer;
+      text-align: left;
+      transition: var(--transition);
+    }
+
+    .form-tab strong {
+      display: block;
+      color: var(--dark);
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .form-tab span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    .form-tab.active,
+    .form-tab:hover {
+      background: var(--white);
+      border-color: rgba(37,99,235,0.35);
+      box-shadow: 0 14px 30px rgba(37,99,235,0.12);
+      transform: translateY(-3px);
+    }
+
+    .smart-form {
+      display: none;
+      padding: 28px;
+      border-radius: 26px;
+      background: var(--white);
+      border: 1px solid var(--border);
+    }
+
+    .smart-form.active {
+      display: block;
+      animation: fadeIn 0.35s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .form-title-row h3 {
+      color: var(--dark);
+      font-size: 1.65rem;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .form-title-row p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .mini-badge {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--soft-gradient);
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .input-group {
+      display: grid;
+      gap: 7px;
+    }
+
+    .input-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .input-group label {
+      color: var(--dark);
+      font-weight: 800;
+      font-size: 0.88rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+      outline: none;
+      color: var(--text);
+      background: #f8fafc;
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .consent-box {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 14px;
+      border-radius: 16px;
+      background: #f8fafc;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .consent-box input {
+      margin-top: 5px;
+      accent-color: var(--primary);
+    }
+
+    .form-actions {
+      margin-top: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .form-actions .btn {
+      width: 100%;
+      border-radius: 16px;
+      padding: 15px 22px;
+    }
+
+    .form-message {
+      min-height: 24px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .footer {
+      padding: 64px 0 24px;
+      background: #020617;
+      color: var(--white);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr 0.8fr;
+      gap: 34px;
+      margin-bottom: 42px;
+    }
+
+    .footer .brand-logo {
+      color: var(--white);
+    }
+
+    .footer .logo-box {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .footer p {
+      max-width: 370px;
+      color: rgba(255, 255, 255, 0.66);
+      margin-top: 16px;
+    }
+
+    .footer h3 {
+      margin-bottom: 16px;
+      font-size: 1rem;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.66);
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+      transform: translateX(4px);
+    }
+
+    .socials {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .socials a {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      transition: var(--transition);
+    }
+
+    .socials a:hover {
+      background: var(--gradient);
+      transform: translateY(-4px);
+    }
+
+    .copyright {
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      color: rgba(255, 255, 255, 0.56);
+      font-size: 0.92rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: all 0.7s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 820px) {
+      .hamburger {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 76px;
+        padding: 22px;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid var(--border);
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-actions .btn {
+        display: none;
+      }
+
+      .grid-3,
+      .form-grid,
+      .form-tabs {
+        grid-template-columns: 1fr;
+      }
+
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-buttons .btn {
+        width: 100%;
+      }
+
+      .dashboard-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .form-title-row {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .section {
+        padding: 70px 0;
+      }
+
+      .hero h1 {
+        font-size: 2.45rem;
+      }
+
+      .dashboard-card,
+      .forms-panel,
+      .smart-form {
+        padding: 22px;
+        border-radius: 24px;
+      }
+
+      .timeline::before {
+        left: 20px;
+      }
+
+      .timeline-item {
+        padding-left: 62px;
+      }
+
+      .timeline-number {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="#home" class="brand-logo">
+        <span class="logo-box">
+          <svg class="logo-svg" viewBox="0 0 120 120" aria-hidden="true">
+            <defs>
+              <linearGradient id="skillLogoGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#06b6d4"/>
+                <stop offset="45%" stop-color="#2563eb"/>
+                <stop offset="100%" stop-color="#7c3aed"/>
+              </linearGradient>
+            </defs>
+            <path d="M25 96 C38 82 48 82 60 96 C72 82 86 82 101 96" fill="none" stroke="#061a44" stroke-width="8" stroke-linecap="round"/>
+            <path d="M23 88 C38 80 50 82 60 94 C70 82 83 80 98 88" fill="none" stroke="url(#skillLogoGradient)" stroke-width="8" stroke-linecap="round"/>
+            <path d="M36 24 L61 10 L94 28 L61 45 Z" fill="#061a44"/>
+            <path d="M43 36 C48 31 75 31 80 36 L80 50 C69 45 54 45 43 50 Z" fill="#061a44"/>
+            <path d="M40 73 C48 62 74 72 75 55 C76 43 57 48 57 40 C57 33 70 35 80 39" fill="none" stroke="url(#skillLogoGradient)" stroke-width="15" stroke-linecap="round"/>
+            <path d="M78 56 H94 M94 56 L102 48 H110" stroke="#2563eb" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <path d="M85 69 H108" stroke="#7c3aed" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <circle cx="112" cy="48" r="5" fill="#2563eb"/>
+            <circle cx="110" cy="69" r="5" fill="#7c3aed"/>
+            <path d="M21 77 C10 57 15 34 33 22" stroke="#06b6d4" stroke-width="6" fill="none" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span>SkillMate AI</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#courses">Courses</a>
+        <a href="#projects">Projects</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#forms">Get Roadmap</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#forms" class="btn btn-primary">Start Now</a>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-content reveal">
+          <div class="hero-badge">🚀 AI-powered learning for beginners</div>
+          <h1>Build Future-Ready Skills with <span>AI-Powered Learning</span></h1>
+          <p>
+            Learn full stack development, AI automations, modern tools, and real-world project skills with smart guidance and hands-on practice.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#courses" class="btn btn-primary">Explore Courses</a>
+            <a href="#forms" class="btn btn-light">Get Free Roadmap</a>
+          </div>
+
+          <div class="hero-stats">
+            <span>✅ Beginner Friendly</span>
+            <span>✅ Project Practice</span>
+            <span>✅ AI Tool Guidance</span>
+          </div>
+        </div>
+
+        <div class="dashboard-card reveal">
+          <svg class="hero-logo-watermark" viewBox="0 0 120 120" aria-hidden="true">
+            <path d="M25 96 C38 82 48 82 60 96 C72 82 86 82 101 96" fill="none" stroke="#061a44" stroke-width="8" stroke-linecap="round"/>
+            <path d="M36 24 L61 10 L94 28 L61 45 Z" fill="#061a44"/>
+            <path d="M40 73 C48 62 74 72 75 55 C76 43 57 48 57 40 C57 33 70 35 80 39" fill="none" stroke="#2563eb" stroke-width="15" stroke-linecap="round"/>
+          </svg>
+
+          <div class="dashboard-top">
+            <h2 class="dashboard-title">AI Learning Dashboard</h2>
+            <span class="status-pill">Live</span>
+          </div>
+
+          <div class="progress-box">
+            <div class="progress-label">
+              <span>Progress</span>
+              <span>85%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill"></div>
+            </div>
+          </div>
+
+          <div class="dashboard-metrics">
+            <div class="metric-card">
+              <h3>12+</h3>
+              <p>Projects Completed</p>
+            </div>
+            <div class="metric-card">
+              <h3>20+</h3>
+              <p>Skills Covered</p>
+            </div>
+            <div class="metric-card">
+              <h3>7+</h3>
+              <p>Learning Steps</p>
+            </div>
+            <div class="metric-card">
+              <h3>AI</h3>
+              <p>Modern Tools</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">💡 About SkillMate AI</span>
+          <h2 class="section-title">What is SkillMate AI?</h2>
+          <p class="section-desc">
+            SkillMate AI is created for students who want practical, career-focused learning with modern technology skills.
+          </p>
+        </div>
+
+        <p class="about-content reveal">
+          SkillMate AI is a student-focused learning platform designed to help beginners explore industry-level skills through practical roadmaps, project-based learning, AI tools, and modern workflow guidance.
+        </p>
+
+        <div class="grid-3">
+          <div class="card reveal">
+            <div class="icon">🌱</div>
+            <h3>Beginner Friendly</h3>
+            <p>Start from the basics and learn step by step with simple explanations, roadmaps, and guided practice.</p>
+          </div>
+
+          <div class="card reveal">
+            <div class="icon">🛠️</div>
+            <h3>Project-Based Learning</h3>
+            <p>Build mini projects that improve your frontend, logic-building, design, and problem-solving skills.</p>
+          </div>
+
+          <div class="card reveal">
+            <div class="icon">🚀</div>
+            <h3>Career-Focused Skills</h3>
+            <p>Learn modern tools, technologies, and project workflows used in real industry environments.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section courses" id="courses">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">📚 Courses</span>
+          <h2 class="section-title">Explore Skill-Based Courses</h2>
+          <p class="section-desc">Learn high-demand skills through practical, student-friendly course paths.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card course-card reveal">
+            <div class="icon">💻</div>
+            <h3>Full Stack Development</h3>
+            <p>Learn frontend, backend basics, APIs, GitHub, deployment, and project workflow.</p>
+            <div class="skills">
+              <span class="skill-pill">HTML</span>
+              <span class="skill-pill">CSS</span>
+              <span class="skill-pill">JavaScript</span>
+              <span class="skill-pill">AI Automation</span>
+            </div>
+            <button class="btn btn-outline enroll-btn" data-course="Full Stack Development with AI Automations">Enroll Now</button>
+          </div>
+
+          <div class="card course-card reveal">
+            <div class="icon">⚙️</div>
+            <h3>AI Automations & Tools</h3>
+            <p>Understand AI tools, automation workflows, prompts, productivity tools, and smart systems.</p>
+            <div class="skills">
+              <span class="skill-pill">AI Tools</span>
+              <span class="skill-pill">Automation</span>
+              <span class="skill-pill">Prompts</span>
+            </div>
+            <button class="btn btn-outline enroll-btn" data-course="AI Tools and Productivity">Enroll Now</button>
+          </div>
+
+          <div class="card course-card reveal">
+            <div class="icon">🌐</div>
+            <h3>Web Development Basics</h3>
+            <p>Master the foundation of websites with responsive layouts and modern UI sections.</p>
+            <div class="skills">
+              <span class="skill-pill">HTML</span>
+              <span class="skill-pill">CSS</span>
+              <span class="skill-pill">Responsive</span>
+            </div>
+            <button class="btn btn-outline enroll-btn" data-course="Frontend Development">Enroll Now</button>
+          </div>
+
+          <div class="card course-card reveal">
+            <div class="icon">🛡️</div>
+            <h3>Cyber Security Basics</h3>
+            <p>Explore security awareness, safe browsing, cyber hygiene, threats, and beginner concepts.</p>
+            <div class="skills">
+              <span class="skill-pill">Security</span>
+              <span class="skill-pill">Awareness</span>
+              <span class="skill-pill">Basics</span>
+            </div>
+            <button class="btn btn-outline enroll-btn" data-course="Cybersecurity Basics">Enroll Now</button>
+          </div>
+
+          <div class="card course-card reveal">
+            <div class="icon">📊</div>
+            <h3>Data Analytics</h3>
+            <p>Learn data basics, spreadsheets, dashboards, charts, insights, and analytics thinking.</p>
+            <div class="skills">
+              <span class="skill-pill">Excel</span>
+              <span class="skill-pill">Charts</span>
+              <span class="skill-pill">Dashboards</span>
+            </div>
+            <button class="btn btn-outline enroll-btn" data-course="Data Analytics">Enroll Now</button>
+          </div>
+
+          <div class="card course-card reveal">
+            <div class="icon">🎨</div>
+            <h3>UI/UX Design</h3>
+            <p>Design clean interfaces, wireframes, landing pages, user flows, and modern layouts.</p>
+            <div class="skills">
+              <span class="skill-pill">Design</span>
+              <span class="skill-pill">Figma</span>
+              <span class="skill-pill">UI</span>
+            </div>
+            <button class="btn btn-outline enroll-btn" data-course="UI/UX Design">Enroll Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section why" id="why">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">⭐ Why Choose Us</span>
+          <h2 class="section-title">Why Students Choose SkillMate AI</h2>
+          <p class="section-desc">A smart learning experience made for students who want to build skills with confidence.</p>
+        </div>
+
+        <div class="why-grid">
+          <div class="why-card reveal"><span class="check">✓</span>Practical learning from day one</div>
+          <div class="why-card reveal"><span class="check">✓</span>Beginner-friendly roadmaps</div>
+          <div class="why-card reveal"><span class="check">✓</span>Real-world mini projects</div>
+          <div class="why-card reveal"><span class="check">✓</span>Career-focused skill guidance</div>
+          <div class="why-card reveal"><span class="check">✓</span>Modern tools and technologies</div>
+          <div class="why-card reveal"><span class="check">✓</span>Peer learning experience</div>
+          <div class="why-card reveal"><span class="check">✓</span>Frontend project practice</div>
+          <div class="why-card reveal"><span class="check">✓</span>Portfolio-building support</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section projects" id="projects">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">🧩 Projects</span>
+          <h2 class="section-title">Projects You Can Build</h2>
+          <p class="section-desc">Practice frontend, AI tools, design, and beginner development skills through useful mini projects.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card reveal">
+            <div class="icon">👩‍💻</div>
+            <h3>Portfolio Website</h3>
+            <p>Create your personal portfolio with skills, projects, resume, and contact section.</p>
+            <span class="tag">Beginner</span>
+          </div>
+
+          <div class="card reveal">
+            <div class="icon">📈</div>
+            <h3>Student Dashboard</h3>
+            <p>Design a dashboard showing progress, courses, projects, and learning activity.</p>
+            <span class="tag">Intermediate</span>
+          </div>
+
+          <div class="card reveal">
+            <div class="icon">📄</div>
+            <h3>Resume Builder Frontend</h3>
+            <p>Create a clean resume builder interface with input sections and preview layout.</p>
+            <span class="tag">Frontend</span>
+          </div>
+
+          <div class="card reveal">
+            <div class="icon">🔐</div>
+            <h3>Cyber Awareness Website</h3>
+            <p>Create an awareness page about online safety, phishing, passwords, and cyber hygiene.</p>
+            <span class="tag">Beginner</span>
+          </div>
+
+          <div class="card reveal">
+            <div class="icon">🎯</div>
+            <h3>Skill Tracker Page</h3>
+            <p>Design a tracker that shows learning progress, goals, completed lessons, and project status.</p>
+            <span class="tag">Frontend</span>
+          </div>
+
+          <div class="card reveal">
+            <div class="icon">🤖</div>
+            <h3>AI Chatbot Website</h3>
+            <p>Build a frontend website with Chatbase chatbot and Google Sheets automation.</p>
+            <span class="tag">AI Automation</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section roadmap" id="roadmap">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">🗺️ Roadmap</span>
+          <h2 class="section-title">Beginner Learning Roadmap</h2>
+          <p class="section-desc">Follow a clear step-by-step path to build confidence in frontend and modern technology skills.</p>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item reveal">
+            <div class="timeline-number">1</div>
+            <div class="timeline-content">
+              <h3>HTML & CSS Basics</h3>
+              <p>Learn page structure, styling, layouts, colors, spacing, and typography.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="timeline-number">2</div>
+            <div class="timeline-content">
+              <h3>JavaScript Fundamentals</h3>
+              <p>Understand variables, functions, events, DOM manipulation, and basic logic.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="timeline-number">3</div>
+            <div class="timeline-content">
+              <h3>Responsive Web Design</h3>
+              <p>Make websites work beautifully on mobile, tablet, and desktop screens.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="timeline-number">4</div>
+            <div class="timeline-content">
+              <h3>AI Tools & Chatbot Integration</h3>
+              <p>Use tools like Chatbase and AI assistants to improve your project experience.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="timeline-number">5</div>
+            <div class="timeline-content">
+              <h3>Google Sheets Automation</h3>
+              <p>Connect forms to Google Sheets and automate emails using Apps Script and Form Mule.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="timeline-number">6</div>
+            <div class="timeline-content">
+              <h3>Frontend Project Practice</h3>
+              <p>Build landing pages, dashboards, portfolio sections, forms, and modern UI components.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="timeline-number">7</div>
+            <div class="timeline-content">
+              <h3>Deployment on GitHub Pages</h3>
+              <p>Publish your frontend project online and share it with others.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section smart-forms" id="forms">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">⚡ Google Sheets + Apps Script + Form Mule</span>
+          <h2 class="section-title">Start Your SkillMate AI Journey</h2>
+          <p class="section-desc">
+            Get a personalized roadmap or submit your course enrollment request. Your details are stored in Google Sheets and emails are automated through Form Mule.
+          </p>
+        </div>
+
+        <div class="form-showcase">
+          <div class="forms-panel reveal">
+            <div class="form-tabs">
+              <button class="form-tab active" type="button" data-form="roadmap">
+                <strong>🎯 Personalized Roadmap</strong>
+                <span>Get a skill plan, project idea, and 7-day action plan.</span>
+              </button>
+
+              <button class="form-tab" type="button" data-form="enrollment">
+                <strong>📝 Course Enrollment</strong>
+                <span>Submit your course interest and receive confirmation.</span>
+              </button>
+            </div>
+
+            <form class="smart-form active" id="roadmapForm">
+              <div class="form-title-row">
+                <div>
+                  <h3>Get Your Personalized SkillMate AI Roadmap</h3>
+                  <p>Tell us your goal, level, and learning time. Your roadmap will be sent to your email through automation.</p>
+                </div>
+                <span class="mini-badge">Free Roadmap</span>
+              </div>
+
+              <div class="form-grid">
+                <div class="input-group">
+                  <label>Full Name</label>
+                  <input class="form-control" type="text" name="fullName" placeholder="Enter your name" required>
+                </div>
+
+                <div class="input-group">
+                  <label>Email Address</label>
+                  <input class="form-control" type="email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="input-group">
+                  <label>Current Qualification</label>
+                  <select class="form-control" name="qualification" required>
+                    <option value="">Select qualification</option>
+                    <option>School Student</option>
+                    <option>College Student</option>
+                    <option>B.Tech Student</option>
+                    <option>Graduate</option>
+                    <option>Working Professional</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label>College / School Name</label>
+                  <input class="form-control" type="text" name="college" placeholder="Enter institution name" required>
+                </div>
+
+                <div class="input-group">
+                  <label>Skill You Want to Learn</label>
+                  <select class="form-control" name="selectedSkill" required>
+                    <option value="">Select skill</option>
+                    <option>Frontend Development</option>
+                    <option>Full Stack Development</option>
+                    <option>AI Tools</option>
+                    <option>Cybersecurity</option>
+                    <option>Data Analytics</option>
+                    <option>UI/UX Design</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label>Current Level</label>
+                  <select class="form-control" name="currentLevel" required>
+                    <option value="">Select level</option>
+                    <option>Beginner</option>
+                    <option>Intermediate</option>
+                    <option>Advanced</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label>Daily Learning Time</label>
+                  <select class="form-control" name="dailyTime" required>
+                    <option value="">Select time</option>
+                    <option>30 minutes</option>
+                    <option>1 hour</option>
+                    <option>2 hours</option>
+                    <option>3+ hours</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label>Learning Goal</label>
+                  <select class="form-control" name="learningGoal" required>
+                    <option value="">Select goal</option>
+                    <option>Internship</option>
+                    <option>Freelancing</option>
+                    <option>Job Preparation</option>
+                    <option>College Project</option>
+                    <option>Personal Skill Growth</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label>Preferred Learning Style</label>
+                  <select class="form-control" name="learningStyle" required>
+                    <option value="">Select learning style</option>
+                    <option>Video Tutorials</option>
+                    <option>Notes</option>
+                    <option>Projects</option>
+                    <option>Live Sessions</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label>Project Interest</label>
+                  <select class="form-control" name="projectInterest" required>
+                    <option value="">Select project type</option>
+                    <option>Website</option>
+                    <option>Dashboard</option>
+                    <option>AI Tool</option>
+                    <option>Automation</option>
+                    <option>Portfolio</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Generate My Roadmap</button>
+                <p class="form-message" id="roadmapMessage"></p>
+              </div>
+            </form>
+
+            <form class="smart-form" id="enrollmentForm">
+              <div class="form-title-row">
+                <div>
+                  <h3>Enroll in a SkillMate AI Course</h3>
+                  <p>Submit your course interest and receive a confirmation email through automation.</p>
+                </div>
+                <span class="mini-badge">Enrollment</span>
+              </div>
+
+              <div class="form-grid">
+                <div class="input-group">
+                  <label>Full Name</label>
+                  <input class="form-control" type="text" name="fullName" placeholder="Enter your name" required>
+                </div>
+
+                <div class="input-group">
+                  <label>Email Address</label>
+                  <input class="form-control" type="email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="input-group">
+                  <label>Phone Number</label>
+                  <input class="form-control" type="tel" name="phone" placeholder="Enter phone number" required>
+                </div>
+
+                <div class="input-group">
+                  <label>College / School Name</label>
+                  <input class="form-control" type="text" name="college" placeholder="Enter institution name" required>
+                </div>
+
+                <div class="input-group">
+                  <label>Current Qualification</label>
+                  <select class="form-control" name="qualification" required>
+                    <option value="">Select qualification</option>
+                    <option>School Student</option>
+                    <option>College Student</option>
+                    <option>B.Tech Student</option>
+                    <option>Graduate</option>
+                    <option>Working Professional</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label>Course Interested In</label>
+                  <select class="form-control" name="selectedCourse" id="selectedCourse" required>
+                    <option value="">Select course</option>
+                    <option>Frontend Development</option>
+                    <option>Full Stack Development with AI Automations</option>
+                    <option>AI Tools and Productivity</option>
+                    <option>Cybersecurity Basics</option>
+                    <option>Data Analytics</option>
+                    <option>UI/UX Design</option>
+                    <option>Resume and Portfolio Building</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label>Preferred Batch Timing</label>
+                  <select class="form-control" name="preferredBatch" required>
+                    <option value="">Select batch</option>
+                    <option>Morning</option>
+                    <option>Afternoon</option>
+                    <option>Evening</option>
+                    <option>Weekend</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label>Learning Mode</label>
+                  <select class="form-control" name="learningMode" required>
+                    <option value="">Select mode</option>
+                    <option>Online</option>
+                    <option>Offline</option>
+                    <option>Hybrid</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label>Previous Experience</label>
+                  <select class="form-control" name="previousExperience" required>
+                    <option value="">Select experience</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                    <option>Basic Knowledge</option>
+                  </select>
+                </div>
+
+                <div class="input-group full">
+                  <label>Why do you want to join this course?</label>
+                  <textarea class="form-control" name="reason" placeholder="Write your reason here..." required></textarea>
+                </div>
+
+                <label class="consent-box">
+                  <input type="checkbox" name="consent" required>
+                  <span>I agree to receive course updates from SkillMate AI.</span>
+                </label>
+              </div>
+
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Submit Enrollment</button>
+                <p class="form-message" id="enrollmentMessage"></p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="#home" class="brand-logo">
+            <span class="logo-box">
+              <svg class="logo-svg" viewBox="0 0 120 120" aria-hidden="true">
+                <defs>
+                  <linearGradient id="skillLogoGradient3" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#06b6d4"/>
+                    <stop offset="45%" stop-color="#2563eb"/>
+                    <stop offset="100%" stop-color="#7c3aed"/>
+                  </linearGradient>
+                </defs>
+                <path d="M25 96 C38 82 48 82 60 96 C72 82 86 82 101 96" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+                <path d="M36 24 L61 10 L94 28 L61 45 Z" fill="#ffffff"/>
+                <path d="M40 73 C48 62 74 72 75 55 C76 43 57 48 57 40 C57 33 70 35 80 39" fill="none" stroke="url(#skillLogoGradient3)" stroke-width="15" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span>SkillMate AI</span>
+          </a>
+          <p>A modern student skill-development platform for practical learning, AI tools, projects, roadmaps, and career-focused skills.</p>
+        </div>
+
+        <div>
+          <h3>Quick Links</h3>
+          <div class="footer-links">
+            <a href="#home">Home</a>
+            <a href="#courses">Courses</a>
+            <a href="#projects">Projects</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#forms">Get Roadmap</a>
+          </div>
+        </div>
+
+        <div>
+          <h3>Courses</h3>
+          <div class="footer-links">
+            <a href="#courses">Full Stack Development</a>
+            <a href="#courses">AI Automations</a>
+            <a href="#courses">Cyber Security</a>
+            <a href="#courses">Data Analytics</a>
+          </div>
+        </div>
+
+        <div>
+          <h3>Social Media</h3>
+          <div class="socials">
+            <a href="#">📷</a>
+            <a href="#">💼</a>
+            <a href="#">▶️</a>
+            <a href="#">💻</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="copyright">© 2026 SkillMate AI. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    const ROADMAP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-bwngpF5soZwzcuPsQCKbmLNIH0bXYfVWMPkBoq-PtxK59Yadwa274MsAT1ABCZTH7w/exec";
+
+    const ENROLLMENT_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzphvawKOb12KMIoFZ5zvTbINWv8fgeoTQTK1eqz1gWkxfNKG87BvC6XqXsLqk4e6fSfQ/exec";
+
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("navLinks");
+    const revealElements = document.querySelectorAll(".reveal");
+
+    const formTabs = document.querySelectorAll(".form-tab");
+    const roadmapForm = document.getElementById("roadmapForm");
+    const enrollmentForm = document.getElementById("enrollmentForm");
+
+    const roadmapMessage = document.getElementById("roadmapMessage");
+    const enrollmentMessage = document.getElementById("enrollmentMessage");
+
+    const selectedCourse = document.getElementById("selectedCourse");
+
+    if (hamburger) {
+      hamburger.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+      });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener("click", function(event) {
+        const targetId = this.getAttribute("href");
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+          event.preventDefault();
+          navLinks.classList.remove("active");
+
+          targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      });
+    });
+
+    function switchForm(type) {
+      formTabs.forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.form === type);
+      });
+
+      roadmapForm.classList.toggle("active", type === "roadmap");
+      enrollmentForm.classList.toggle("active", type === "enrollment");
+    }
+
+    formTabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        switchForm(tab.dataset.form);
+      });
+    });
+
+    document.querySelectorAll(".enroll-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        switchForm("enrollment");
+
+        if (selectedCourse) {
+          selectedCourse.value = button.dataset.course;
+        }
+
+        document.getElementById("forms").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      });
+    });
+
+    function getFormData(form) {
+      const formData = new FormData(form);
+      const data = {};
+
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      return data;
+    }
+
+    async function sendToGoogleSheet(url, data) {
+      await fetch(url, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain"
+        },
+        body: JSON.stringify(data)
+      });
+    }
+
+    if (roadmapForm) {
+      roadmapForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const button = this.querySelector("button[type='submit']");
+        const originalText = button.textContent;
+
+        button.textContent = "Generating Roadmap...";
+        button.disabled = true;
+        roadmapMessage.textContent = "";
+
+        const data = getFormData(this);
+
+        try {
+          await sendToGoogleSheet(ROADMAP_SCRIPT_URL, data);
+
+          roadmapMessage.style.color = "#16a34a";
+          roadmapMessage.textContent = "Your roadmap request has been saved! Form Mule will send your email shortly.";
+          this.reset();
+        } catch (error) {
+          roadmapMessage.style.color = "#dc2626";
+          roadmapMessage.textContent = "Something went wrong. Please try again.";
+        }
+
+        button.textContent = originalText;
+        button.disabled = false;
+      });
+    }
+
+    if (enrollmentForm) {
+      enrollmentForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const button = this.querySelector("button[type='submit']");
+        const originalText = button.textContent;
+
+        button.textContent = "Submitting...";
+        button.disabled = true;
+        enrollmentMessage.textContent = "";
+
+        const data = getFormData(this);
+        data.consent = data.consent ? "Yes" : "No";
+
+        try {
+          await sendToGoogleSheet(ENROLLMENT_SCRIPT_URL, data);
+
+          enrollmentMessage.style.color = "#16a34a";
+          enrollmentMessage.textContent = "Your enrollment request has been saved! Form Mule will send confirmation shortly.";
+          this.reset();
+        } catch (error) {
+          enrollmentMessage.style.color = "#dc2626";
+          enrollmentMessage.textContent = "Something went wrong. Please try again.";
+        }
+
+        button.textContent = originalText;
+        button.disabled = false;
+      });
+    }
+
+    const revealOnScroll = () => {
+      const windowHeight = window.innerHeight;
+
+      revealElements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const revealPoint = 110;
+
+        if (elementTop < windowHeight - revealPoint) {
+          element.classList.add("active");
+        }
+      });
+    };
+
+    window.addEventListener("scroll", revealOnScroll);
+    window.addEventListener("load", revealOnScroll);
+  </script>
+
+  <!-- CHATBASE SCRIPT START -->
+  <script>
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="j8VVpfZ3MHNilHdNepFRX";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+  </script>
+  <!-- CHATBASE SCRIPT END -->
+</body>
+</html>
